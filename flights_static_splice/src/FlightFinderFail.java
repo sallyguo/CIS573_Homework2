@@ -1,14 +1,8 @@
-import java.util.ArrayList;
 
 
-public class FlightFinder {
 
-	private ArrayList<Flight> _directFlights = new ArrayList<Flight>();
-	private ArrayList<Flight[]> _indirectFlights = new ArrayList<Flight[]>();
-	
-	public ArrayList<Flight> directFlights() { return _directFlights; }
-	public ArrayList<Flight[]> indirectFlights() { return _indirectFlights; }
-	
+public class FlightFinderFail {
+
 	/**
 	 * Look through the (hard-coded) list of flights and return the number
 	 * of flights from the home airport to the destination. If direct is true,
