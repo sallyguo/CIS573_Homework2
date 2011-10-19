@@ -3,8 +3,6 @@ import java.util.ArrayList;
 
 public class SeatFinder {
 
-	// track the seats that are available (as Strings representing row and seat number)
-	private ArrayList<String> seats = new ArrayList<String>();
 	// track the number of window, aisle, and middle seats that are available
 	private int windowSeats, aisleSeats, middleSeats;
 	
