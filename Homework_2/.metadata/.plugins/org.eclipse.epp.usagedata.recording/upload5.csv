@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1318896521628
+java.version,sysinfo,,,"1.6.0_16",1318896521628
+java.vm.info,sysinfo,,,"mixed mode",1318896521628
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1318896521628
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1318896521628
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1318896521628
+java.vm.specification.version,sysinfo,,,"1.0",1318896521628
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1318896521628
+java.vm.version,sysinfo,,,"14.2-b01",1318896521628
+error,log,,,"Referenced part does not exist yet: org.eclipse.ui.views.TaskList.",1318896531485
+started,bundle,org.eclipse.ui.views.log,1.0.100.v20090731,"org.eclipse.ui.views.log",1318896532485
+started,bundle,org.eclipse.pde.ui,3.5.1.v201001121200,"org.eclipse.pde.ui",1318896532499
+opened,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1318896532728
+opened,view,org.eclipse.ui.ide,3.5.1.M20090826-0800,"org.eclipse.ui.views.ProblemView",1318896532840
+started,bundle,org.eclipse.debug.core,3.5.0.v20090526-1600,"org.eclipse.debug.core",1318896534338
+started,bundle,ecobertura.core,0.9.8.201007202152,"ecobertura.core",1318896534391
+started,bundle,ecobertura.ui,0.9.8.201007202152,"ecobertura.ui",1318896534419
+opened,view,ecobertura.ui,0.9.8.201007202152,"ecobertura.ui.views.session.CoverageSessionView",1318896534563
+opened,view,org.eclipse.mylyn.tasks.ui,3.6.2.v20110826-0100,"org.eclipse.mylyn.tasks.ui.views.tasks",1318896535769
+activated,perspective,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1318896535818
+started,bundle,org.eclipse.debug.ui,3.5.1.v20090811_r351,"org.eclipse.debug.ui",1318896536026
+activated,view,org.eclipse.ui.views,3.4.1.M20090826-0800,"org.eclipse.ui.views.ContentOutline",1318896536535
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.perspectives.showPerspective",1318896536847
+executed,command,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1318896536847
+activated,view,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.internal.introview",1318896539877
