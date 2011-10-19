@@ -52,8 +52,6 @@ public class SeatFinder {
 			// now we just need to count the number of 0s to see how many seats are available
 			for (int j = 1; j < 8; j++) {
 				if (row % 2 == 0) {
-					// this means the last digit is 0, so the seat is available
-					seats.add("Row:" + i + " Seat:" + (8-j));
 					// update the counter for the different types of seats
 					if (j == 1 || j == 7) aisleSeats++;
 					else if (j == 4) middleSeats++;
