@@ -20,9 +20,6 @@ public class FlightFinder {
 	{
 		// keep track of the number of flights
 		int count = 0;
-		// clear the ArrayLists
-		_directFlights.clear();
-		_indirectFlights.clear();
 		
 		// the array of all flights
 		Flight[] allFlights = Flight.allFlights();
@@ -31,7 +28,6 @@ public class FlightFinder {
 		for (int i = 0; i < allFlights.length; i++) {
 			Flight f = allFlights[i];
 			if (f.start().equals(home) && f.end().equals(dest)) {
-				_directFlights.add(f);
 				count++;
 			}
 		}
@@ -42,8 +38,6 @@ public class FlightFinder {
 				if (allFlights[i].start().equals(home)) {
 					for (int j = 0; j < allFlights.length; j++) {
 						if (allFlights[i].end().equals(allFlights[j].start()) && allFlights[i].end().equals(dest) && allFlights[i].time()+allFlights[j].time() < timeLimit) {
-							Flight indirectFlight[] = { allFlights[i], allFlights[j] }; 
-							_indirectFlights.add(indirectFlight);
 							count++;
 						}
 					}

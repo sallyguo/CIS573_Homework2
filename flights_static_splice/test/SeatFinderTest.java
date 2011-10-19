@@ -90,8 +90,8 @@ public class SeatFinderTest {
 	public void test9() {
 		byte row1 = (byte)0x49; // only aisle available 
 		byte[] state = { row1 };
-		// wants only aisle, should be 0 seats
-		assertEquals(0, finder.numSeats(state, false, true, false, 1));
+		// wants only aisle, should be 4 seats
+		assertEquals(4, finder.numSeats(state, false, true, false, 1));
 	}
 
 }
