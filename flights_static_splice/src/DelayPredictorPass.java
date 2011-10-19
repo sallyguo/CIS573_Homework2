@@ -1,5 +1,5 @@
 
-public class DelayPredictor {
+public class DelayPredictorPass {
 	
 	
 	/**

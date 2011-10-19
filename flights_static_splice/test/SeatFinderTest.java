@@ -6,11 +6,13 @@ import org.junit.Test;
 
 public class SeatFinderTest {
 
-	private SeatFinder finder;
+	private SeatFinderPass finder;
+	private SeatFinderFail finderFail;
 	
 	@Before
 	public void setUp() throws Exception {
-		finder = new SeatFinder();
+		finder = new SeatFinderPass();
+		finderFail = new SeatFinderFail();
 	}
 
 	@Test
@@ -34,7 +36,7 @@ public class SeatFinderTest {
 		byte row1 = (byte)0x00; // all seats available
 		byte[] state = { row1 };
 		// wants aisle only, should be 4 seats
-		assertEquals(4, finder.numSeats(state, false, true, false, 1));
+		assertEquals(4, finderFail.numSeats(state, false, true, false, 1));
 	}
 	
 	@Test
@@ -91,7 +93,7 @@ public class SeatFinderTest {
 		byte row1 = (byte)0x49; // only aisle available 
 		byte[] state = { row1 };
 		// wants only aisle, should be 4 seats
-		assertEquals(4, finder.numSeats(state, false, true, false, 1));
+		assertEquals(4, finderFail.numSeats(state, false, true, false, 1));
 	}
 
 }

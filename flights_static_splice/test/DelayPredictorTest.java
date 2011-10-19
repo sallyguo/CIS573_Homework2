@@ -22,7 +22,7 @@ public class DelayPredictorTest {
 		
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorPass.predict(records, true, true, true));
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class DelayPredictorTest {
 		
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorPass.predict(records, true, true, true));
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class DelayPredictorTest {
 		
 		FlightRecord[] records = { flight0, flight1, flight2 };
 		
-		assertEquals(0, DelayPredictor.predict(records, false, false, false));
+		assertEquals(0, DelayPredictorPass.predict(records, false, false, false));
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class DelayPredictorTest {
 
 		int expectedAverage = (10 + 30) / 2;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorFail.predict(records, true, true, true));
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class DelayPredictorTest {
 
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, false));
+		assertEquals(expectedAverage, DelayPredictorPass.predict(records, true, true, false));
 	}
 	
 	@Test
@@ -119,7 +119,7 @@ public class DelayPredictorTest {
 
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorPass.predict(records, true, true, true));
 	}
 	
 	@Test
@@ -143,7 +143,7 @@ public class DelayPredictorTest {
 
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorFail.predict(records, true, true, true));
 	}
 
 	@Test
@@ -167,7 +167,7 @@ public class DelayPredictorTest {
 
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorPass.predict(records, true, true, true));
 	}
 
 	@Test
@@ -190,7 +190,7 @@ public class DelayPredictorTest {
 
 		int expectedAverage = (10 + 30 + 80) / 3;
 		
-		assertEquals(expectedAverage, DelayPredictor.predict(records, true, true, true));
+		assertEquals(expectedAverage, DelayPredictorFail.predict(records, true, true, true));
 	}
 
 }
