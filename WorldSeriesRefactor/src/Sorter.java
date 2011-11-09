@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 
 public class Sorter {
@@ -14,73 +18,34 @@ public class Sorter {
 		
 		ArrayList<WorldSeriesInstance> list = ds.allInstances();
 		
-		/*
-		 All right, this is mega-complicated so pay close attention.
-		 In order to group the WS results by winning team, I loop through
-		 the whole list and I have two ArrayLists: 
-		 -- teams: holds the distinct team names in the order in which I see them
-		 -- wins: each entry is ITSELF an ArrayList holding the years in which that team won
-		 The indices of teams and wins MUST match, ie the k-th entry in wins corresponds
-		 to the k-th entry in teams.
-		 */
-		
-		ArrayList<String> teams = new ArrayList<String>();
-		ArrayList<ArrayList<Integer>> wins = new ArrayList<ArrayList<Integer>>();
+		//Sorted map to keep teams and their win years
+		TreeMap<String, ArrayList<Integer>> teamYearHash = new TreeMap<String, ArrayList<Integer>>();
 		
 		for (WorldSeriesInstance wsi : list) {
 
 			// see if the winner is already in the list of teams
-			int teamsIndex = teams.indexOf(wsi.winner());
-			
-			// if it's -1, then we haven't seen this team before
-			if (teamsIndex == -1) {
-				// add it to the list of teams
-				teams.add(wsi.winner());
-				// create an entry in the wins list
+			if (!teamYearHash.containsKey(wsi.winner())) {
+				// add it to the list of teams and create an entry in the wins list
 				ArrayList<Integer> newEntry = new ArrayList<Integer>();
 				newEntry.add(wsi.year());
-				wins.add(newEntry);
+				teamYearHash.put(wsi.winner(), newEntry);
 			}
-			// if it's not -1, then we've already seen this team
 			else {
 				// so just update the corresponding entry in wins
-				wins.get(teamsIndex).add(wsi.year());
+				teamYearHash.get(wsi.winner()).add(wsi.year());
 			}
 		}
 		
-		// now we need to sort the teams list! but we also need to keep the 
-		// wins list in the corresponding order! omfg this is such a hack
-		// selection sort to the rescue
-		for (int i = 0; i < teams.size(); i++) {
-			// find the "smallest" remaining value
-			String min = teams.get(i);
-			int minIndex = i;
-			for (int j = i; j < teams.size(); j++) {
-				if (teams.get(j).compareTo(min) < 0) {
-					min = teams.get(j);
-					minIndex = j;
-				}
-			}
-			// swap it with the first one
-			String temp = teams.get(i);
-			teams.set(i, teams.get(minIndex));
-			teams.set(minIndex, temp);
-			
-			// now do the same swap for the wins array
-			ArrayList<Integer> t = wins.get(i);
-			wins.set(i, wins.get(minIndex));
-			wins.set(minIndex, t);
-			
-		}
 		
-		// now put together the result
-		for (int i = 0; i < teams.size(); i++) {
-			result.append(teams.get(i) + ": ");
-			ArrayList<Integer> teamWins = wins.get(i);
-			for (int j = 0; j < teamWins.size(); j++) {
-				result.append(teamWins.get(j));
-				if (j < teamWins.size()-1) result.append(", ");
+		//Generates the result string by iterating through the sorted map
+		for(String team : teamYearHash.keySet()){
+			result.append(team + ": ");
+			ArrayList<Integer> years = teamYearHash.get(team);
+			Collections.sort(years);
+			for(Integer year : years){
+				result.append(year + ", ");
 			}
+			result.delete(result.length()-2, result.length());
 			result.append("\n");
 		}
 		

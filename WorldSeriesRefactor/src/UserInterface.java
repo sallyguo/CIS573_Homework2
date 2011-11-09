@@ -131,30 +131,27 @@ public class UserInterface {
 		
 		// to hold the result
 		StringBuffer result = new StringBuffer();
+		ArrayList<WorldSeriesInstance> list = ds.allInstances();
 		
 		if (choice.equalsIgnoreCase("W")) {
 			// keep track of the number of wins for the team
-			int m = 0;
+			int wins = 0;
 			
 			// look through all the instances
-			ArrayList<WorldSeriesInstance> list = ds.allInstances();
 			for (WorldSeriesInstance wsi : list) {
 				// convert to uppercase and use "contains" for partial matching
 				if (wsi.winner().toUpperCase().contains(team.toUpperCase())) {
 					// we found an instance when the team won
-					result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score());
-					result.append("\n");
-					m++;
+					result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
+					wins++;
 				}
 			}
 			// if none found, print a message
-			if (m == 0) {
-				result.append("The " + team + " have not won any World Series");
-				result.append("\n");
+			if (wins == 0) {
+				result.append("The " + team + " have not won any World Series\n");
 			}
 			else {
-				result.append("The " + team + " have won " + m + " World Series");
-				result.append("\n");
+				result.append("The " + team + " have won " + wins + " World Series\n");
 			}
 			
 		}
@@ -163,23 +160,19 @@ public class UserInterface {
 			int m = 0;
 			
 			// look through all the instances
-			ArrayList<WorldSeriesInstance> list = ds.allInstances();
 			for (WorldSeriesInstance wsi : list) {
 				// convert to uppercase and use "contains" for partial matching
 				if (wsi.loser().toUpperCase().contains(team.toUpperCase())) {
-					result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score());
-					result.append("\n");
+					result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score() + "\n");
 					m++;
 				}
 			}
 			// if none found, print a message
 			if (m == 0) {
-				result.append("The " + team + " have not lost any World Series");
-				result.append("\n");
+				result.append("The " + team + " have not lost any World Series\n");
 			}
 			else {
-				result.append("The " + team + " have lost " + m + " World Series");
-				result.append("\n");
+				result.append("The " + team + " have lost " + m + " World Series\n");
 			}
 			
 		}
@@ -189,18 +182,16 @@ public class UserInterface {
 			int a = 0, b = 0;
 			
 			// look through all the instances
-			ArrayList<WorldSeriesInstance> list = ds.allInstances();
 			for (WorldSeriesInstance wsi : list) {
 				// convert to uppercase and use "contains" for partial matching
+			    if (wsi.winner().equalsIgnoreCase(team))
 				if (wsi.winner().toUpperCase().contains(team.toUpperCase())) {
 					// we found an instance when the team won
-					result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score());
-					result.append("\n");
+					result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
 					a++;
 				}
 				else if (wsi.loser().toUpperCase().contains(team.toUpperCase())) {
-					result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score());
-					result.append("\n");
+					result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score() + "\n");
 					b++;
 				}
 			}
