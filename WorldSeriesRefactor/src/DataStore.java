@@ -8,8 +8,8 @@ public class DataStore {
 	private boolean _initialized = false;
 	private ArrayList<WorldSeriesInstance> _list;
 	
-	int y;
-	String w, l, s;
+	int year;
+	String winner, loser, score;
 	
 	public DataStore(String fileName) {
 		_fileName = fileName;
@@ -28,16 +28,16 @@ public class DataStore {
 			
 			// read each line of the file one at a time
 			while (in.hasNext()) {
-				y = in.nextInt();
-				w = in.next();
-				s = in.next();
-				l = in.nextLine();
+				year = in.nextInt();
+				winner = in.next();
+				score = in.next();
+				loser = in.nextLine();
 				// the loser still has the leading comma attached, so get rid of it
-				l = l.substring(1, l.length());
+				loser = loser.substring(1, loser.length());
 				//System.out.println(year + ": " + winner + " beat " + loser + " by " + score);
 				
 				// create a WorldSeriesInstance
-				WorldSeriesInstance wsi = new WorldSeriesInstance(y, w, l, s);
+				WorldSeriesInstance wsi = new WorldSeriesInstance(year, winner, loser, score);
 				
 				// add it to the ArrayList
 				_list.add(wsi);

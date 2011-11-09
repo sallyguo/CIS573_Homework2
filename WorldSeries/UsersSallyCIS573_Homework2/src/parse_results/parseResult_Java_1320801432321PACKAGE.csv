@@ -1,0 +1,2 @@
+Package Name,Package Id,Cyclometric Density,Decision Density,Essential Density,Branch Count,Condition Count,Cyclometric Complexity,Decision Count,Essential Complexity,LOC,Total Operands,Total Operators,Unique Operands Count,Unique Operators Count,Halstead Difficulty,Halstead Length,Halstead Level,Halstead Programming Effort,Halstead Programming Time,Halstead Volume,Maintenance Severity,Defected?(false/true)
+<default package>,93,79,1.68,0.53,40,52,0.05,31,42,4,299,299,105,22,33.33,598,0.03,2.0,0.11,0.06,0.53,false

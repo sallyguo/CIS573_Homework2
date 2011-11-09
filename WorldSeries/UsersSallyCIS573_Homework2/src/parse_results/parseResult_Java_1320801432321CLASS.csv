@@ -1,0 +1,5 @@
+Class Name,Class Id,Cyclometric Density,Decision Density,Essential Density,Branch Count,Condition Count,Cyclometric Complexity,Decision Count,Essential Complexity,LOC,Total Operands,Total Operators,Unique Operands Count,Unique Operators Count,Halstead Difficulty,Halstead Length,Halstead Level,Halstead Programming Effort,Halstead Programming Time,Halstead Volume,Maintenance Severity,Coupling Between Objects,Fan In,Number of Children,Percentage of Pub Data,Response for Class,Weighted Methods,Defected?(false/true) 
+.DataStore,95,13,1.0,0.83,2,1,0.08,1,11,1,24,16,14,6,5.26,40,0.19,1.32,0.07,0.25,0.85,1,4,0,0.0,2,2,false
+.Sorter,100,10,1.88,0.11,8,15,0.1,8,2,1,56,48,20,11,16.67,104,0.06,1.5,0.08,0.09,0.2,1,0,0,0.0,1,1,false
+.UserInterface,103,42,1.64,0.34,30,36,0.02,22,15,1,210,227,78,20,25.0,437,0.04,2.0,0.11,0.08,0.36,3,0,0,100.0,4,4,false
+.WorldSeriesInstance,109,14,0.0,1.0,0,0,0.07,0,14,1,9,8,5,2,1.79,17,0.56,0.84,0.05,0.47,1.0,0,1,0,0.0,4,4,false

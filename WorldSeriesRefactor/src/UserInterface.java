@@ -30,19 +30,14 @@ public class UserInterface {
 			
 			try {
 				int choiceNum = Integer.parseInt(choice);
-				
-				switch(choiceNum) {
-				case 1: 
+
+				switch (choiceNum) {
+				case 1:
 					// if they want to search by year
 					System.out.print("Please enter the year: ");
-					try {
-						int year = in.nextInt();
-						String yearData = showDataForYear(year);
-						System.out.println(yearData);
-					}
-					catch (Exception e) { 
-						System.out.println("That is not a valid year.");
-					}
+					int year = in.nextInt();
+					String yearData = showDataForYear(year);
+					System.out.println(yearData);
 					break;
 				case 2:
 					// search by team
@@ -50,29 +45,17 @@ public class UserInterface {
 					String team = in.nextLine();
 					System.out.print("Do you want to see World Series the team has (W)on, (L)ost, or (A)ll? ");
 					String which = in.next();
-					String teamData = showDataForTeam(team, which);	
+					String teamData = showDataForTeam(team, which);
 					System.out.println(teamData);
 					break;
 				case 3:
 					// for a range of years
 					int startYear, endYear;
 					System.out.print("Please enter the starting year: ");
-					try {
-						startYear = in.nextInt();
-					}
-					catch (Exception e) { 
-						System.out.println("That is not a valid year.");
-						break;
-					}
+					startYear = in.nextInt();
 					System.out.print("Please enter the ending year: ");
-					try {
-						endYear = in.nextInt();
-					}
-					catch (Exception e) { 
-						System.out.println("That is not a valid year.");
-						break;
-					}
-					String yearData = showDataForRange(startYear, endYear);
+					endYear = in.nextInt();
+					yearData = showDataForRange(startYear, endYear);
 					System.out.println(yearData);
 					break;
 				case 4:
@@ -84,35 +67,32 @@ public class UserInterface {
 					// they entered a number but not a valid one
 					System.out.println("That is not a valid selection.");
 				}
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				// they didn't enter a number
-				if (choice.equals("q") == false && choice.equals("Q") == false) {
+				if (!choice.equals("q") && !choice.equals("Q")) {
 					System.out.println("That is not a valid selection.");
 				}
+			} catch (Exception e) {
+				System.out.println("That is not a valid year.");
 			}
-			
+
 		}
-		while (choice.equals("Q") == false && choice.equals("q") == false);
+		while (!choice.equals("Q") && !choice.equals("q"));
 		System.out.println("Good bye");
 	}
 
 	
 	protected static String showDataForYear(int year) {
 		DataStore ds = new DataStore(DATAFILE);
-		
 		// look through all the instances
-		ArrayList<WorldSeriesInstance> list = ds.allInstances();
-		for (WorldSeriesInstance wsi : list) {
+		for (WorldSeriesInstance wsi : ds.allInstances()) {
 			if (wsi.year() == year) {
-				// found it!
+				//found it!
 				return "In " + year + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score();
 			}
 		}
-		
 		// if we made it here, we didn't find it
 		return "No World Series was held in " + year;
-		
 	}
 
 	protected static String showDataForRange(int start, int end) {
@@ -126,27 +106,23 @@ public class UserInterface {
 		StringBuffer result = new StringBuffer();
 		
 		// this is a counter of how many we've added to the buffer
-		int x = 0;
+		int count = 0;
 		
 		// look through all the instances
-		ArrayList<WorldSeriesInstance> list = ds.allInstances();
-		for (WorldSeriesInstance wsi : list) {
+		for (WorldSeriesInstance wsi : ds.allInstances()) {
 			if (wsi.year() >= start && wsi.year() <= end) {
 				// found it!
-				result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score());
-				result.append("\n");
-				x++;
+				result.append("In " + wsi.year() + " the " + wsi.winner() + 
+						" defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
+				count++;
 			}
 		}
 		
 		// if we didn't see any results, return that
-		if (x == 0) {
+		if (count == 0)
 			return "No World Series held between " + start + " and " + end;
-		}
-		else {
+		else
 			return result.toString();
-		}
-		
 	}
 
 	protected static String showDataForTeam(String team, String choice) {
