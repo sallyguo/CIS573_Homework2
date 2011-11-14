@@ -16,13 +16,12 @@ public class Sorter {
 		// to hold the return value
 		StringBuffer result = new StringBuffer();
 		
-		ArrayList<WorldSeriesInstance> list = ds.allInstances();
+		ArrayList<WorldSeriesInstance> instancesList = ds.getAllInstances();
 		
 		//Sorted map to keep teams and their win years
 		TreeMap<String, ArrayList<Integer>> teamYearHash = new TreeMap<String, ArrayList<Integer>>();
 		
-		for (WorldSeriesInstance wsi : list) {
-
+		for (WorldSeriesInstance wsi : instancesList) {
 			// see if the winner is already in the list of teams
 			if (!teamYearHash.containsKey(wsi.winner())) {
 				// add it to the list of teams and create an entry in the wins list
@@ -40,9 +39,9 @@ public class Sorter {
 		//Generates the result string by iterating through the sorted map
 		for(String team : teamYearHash.keySet()){
 			result.append(team + ": ");
-			ArrayList<Integer> years = teamYearHash.get(team);
-			Collections.sort(years);
-			for(Integer year : years){
+			ArrayList<Integer> winYears = teamYearHash.get(team);
+			Collections.sort(winYears);
+			for(Integer year : winYears){
 				result.append(year + ", ");
 			}
 			result.delete(result.length()-2, result.length());

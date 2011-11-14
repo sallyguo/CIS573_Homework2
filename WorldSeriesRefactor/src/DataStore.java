@@ -17,7 +17,7 @@ public class DataStore {
 		readDataFile();
 	}
 	
-	public ArrayList<WorldSeriesInstance> allInstances() { return _list; }
+	public ArrayList<WorldSeriesInstance> getAllInstances() { return _list; }
 	
 	protected void readDataFile() {
 		
@@ -34,7 +34,6 @@ public class DataStore {
 				loser = in.nextLine();
 				// the loser still has the leading comma attached, so get rid of it
 				loser = loser.substring(1, loser.length());
-				//System.out.println(year + ": " + winner + " beat " + loser + " by " + score);
 				
 				// create a WorldSeriesInstance
 				WorldSeriesInstance wsi = new WorldSeriesInstance(year, winner, loser, score);

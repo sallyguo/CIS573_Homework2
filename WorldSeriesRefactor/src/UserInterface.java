@@ -85,13 +85,12 @@ public class UserInterface {
 	protected static String showDataForYear(int year) {
 		DataStore ds = new DataStore(DATAFILE);
 		// look through all the instances
-		for (WorldSeriesInstance wsi : ds.allInstances()) {
-			if (wsi.year() == year) {
-				//found it!
-				return "In " + year + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score();
-			}
+		Filter filter = new Filter().setYear(year);
+		ArrayList<WorldSeriesInstance> series = filter.filter(ds.getAllInstances());
+		if (!series.isEmpty()){
+		    WorldSeriesInstance found = series.get(0);
+		    return "In " + year + " the " + found.winner() + " defeated the " + found.loser() + " by " + found.score();
 		}
-		// if we made it here, we didn't find it
 		return "No World Series was held in " + year;
 	}
 
@@ -109,7 +108,7 @@ public class UserInterface {
 		int count = 0;
 		
 		// look through all the instances
-		for (WorldSeriesInstance wsi : ds.allInstances()) {
+		for (WorldSeriesInstance wsi : ds.getAllInstances()) {
 			if (wsi.year() >= start && wsi.year() <= end) {
 				// found it!
 				result.append("In " + wsi.year() + " the " + wsi.winner() + 
@@ -126,92 +125,101 @@ public class UserInterface {
 	}
 
 	protected static String showDataForTeam(String team, String choice) {
-		// load the data
-		DataStore ds = new DataStore(DATAFILE);
-		
-		// to hold the result
-		StringBuffer result = new StringBuffer();
-		ArrayList<WorldSeriesInstance> list = ds.allInstances();
-		
-		if (choice.equalsIgnoreCase("W")) {
-			// keep track of the number of wins for the team
-			int wins = 0;
-			
-			// look through all the instances
-			for (WorldSeriesInstance wsi : list) {
-				// convert to uppercase and use "contains" for partial matching
-				if (wsi.winner().toUpperCase().contains(team.toUpperCase())) {
-					// we found an instance when the team won
-					result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
-					wins++;
-				}
-			}
-			// if none found, print a message
-			if (wins == 0) {
-				result.append("The " + team + " have not won any World Series\n");
-			}
-			else {
-				result.append("The " + team + " have won " + wins + " World Series\n");
-			}
-			
-		}
-		else if (choice.equalsIgnoreCase("L")) {
-			// keep track of the number of losses for the team
-			int m = 0;
-			
-			// look through all the instances
-			for (WorldSeriesInstance wsi : list) {
-				// convert to uppercase and use "contains" for partial matching
-				if (wsi.loser().toUpperCase().contains(team.toUpperCase())) {
-					result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score() + "\n");
-					m++;
-				}
-			}
-			// if none found, print a message
-			if (m == 0) {
-				result.append("The " + team + " have not lost any World Series\n");
-			}
-			else {
-				result.append("The " + team + " have lost " + m + " World Series\n");
-			}
-			
-		}
-		else if (choice.equalsIgnoreCase("A")) {
-			
-			// keep track of the number of wins and losses for the team
-			int a = 0, b = 0;
-			
-			// look through all the instances
-			for (WorldSeriesInstance wsi : list) {
-				// convert to uppercase and use "contains" for partial matching
-			    if (wsi.winner().equalsIgnoreCase(team))
-				if (wsi.winner().toUpperCase().contains(team.toUpperCase())) {
-					// we found an instance when the team won
-					result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
-					a++;
-				}
-				else if (wsi.loser().toUpperCase().contains(team.toUpperCase())) {
-					result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score() + "\n");
-					b++;
-				}
-			}
-			// if none found, print a message
-			if (a + b == 0) {
-				result.append("The " + team + " have not played in any World Series");
-				result.append("\n");
-			}
-			else {
-				result.append("The " + team + " have won " + a + " World Series and lost " + b);
-				result.append("\n");
-			}
-			
-			
-		}
-		else {
-			result.append("\"" + choice + "\" is not a valid entry.");
-		}
-		
-		return result.toString();
+	 // load the data
+        DataStore ds = new DataStore(DATAFILE);
+        
+        // to hold the result
+        StringBuffer result = new StringBuffer();
+        
+        if (choice.equalsIgnoreCase("W")) {
+            // keep track of the number of wins for the team
+            int m = 0;
+            
+            // look through all the instances
+            ArrayList<WorldSeriesInstance> list = ds.getAllInstances();
+            for (WorldSeriesInstance wsi : list) {
+                // convert to uppercase and use "contains" for partial matching
+                if (wsi.winner().toUpperCase().contains(team.toUpperCase())) {
+                    // we found an instance when the team won
+                    result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score());
+                    result.append("\n");
+                    m++;
+                }
+            }
+            // if none found, print a message
+            if (m == 0) {
+                result.append("The " + team + " have not won any World Series");
+                result.append("\n");
+            }
+            else {
+                result.append("The " + team + " have won " + m + " World Series");
+                result.append("\n");
+            }
+            
+        }
+        else if (choice.equalsIgnoreCase("L")) {
+            // keep track of the number of losses for the team
+            int m = 0;
+            
+            // look through all the instances
+            ArrayList<WorldSeriesInstance> list = ds.getAllInstances();
+            for (WorldSeriesInstance wsi : list) {
+                // convert to uppercase and use "contains" for partial matching
+                if (wsi.loser().toUpperCase().contains(team.toUpperCase())) {
+                    result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score());
+                    result.append("\n");
+                    m++;
+                }
+            }
+            // if none found, print a message
+            if (m == 0) {
+                result.append("The " + team + " have not lost any World Series");
+                result.append("\n");
+            }
+            else {
+                result.append("The " + team + " have lost " + m + " World Series");
+                result.append("\n");
+            }
+            
+        }
+        else if (choice.equalsIgnoreCase("A")) {
+            
+            // keep track of the number of wins and losses for the team
+            int a = 0, b = 0;
+            
+            // look through all the instances
+            ArrayList<WorldSeriesInstance> list = ds.getAllInstances();
+            for (WorldSeriesInstance wsi : list) {
+                // convert to uppercase and use "contains" for partial matching
+                if (wsi.winner().toUpperCase().contains(team.toUpperCase())) {
+                    // we found an instance when the team won
+                    result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score());
+                    result.append("\n");
+                    a++;
+                }
+                else if (wsi.loser().toUpperCase().contains(team.toUpperCase())) {
+                    result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score());
+                    result.append("\n");
+                    b++;
+                }
+            }
+            // if none found, print a message
+            if (a + b == 0) {
+                result.append("The " + team + " have not played in any World Series");
+                result.append("\n");
+            }
+            else {
+                result.append("The " + team + " have won " + a + " World Series and lost " + b);
+                result.append("\n");
+            }
+            
+            
+        }
+        else {
+            result.append("\"" + choice + "\" is not a valid entry.");
+        }
+        
+        return result.toString();
 		
 	}
 	
