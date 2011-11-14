@@ -84,11 +84,12 @@ public class UserInterface {
 	
 	protected static String showDataForYear(int year) {
 		DataStore ds = new DataStore(DATAFILE);
-		// look through all the instances
+		
 		Filter filter = new Filter().setYear(year);
-		ArrayList<WorldSeriesInstance> series = filter.filter(ds.getAllInstances());
-		if (!series.isEmpty()){
-		    WorldSeriesInstance found = series.get(0);
+		ArrayList<WorldSeriesInstance> filteredList = filter.filter(ds.getAllInstances());
+		
+		if (!filteredList.isEmpty()){
+		    WorldSeriesInstance found = filteredList.get(0);
 		    return "In " + year + " the " + found.winner() + " defeated the " + found.loser() + " by " + found.score();
 		}
 		return "No World Series was held in " + year;
@@ -101,32 +102,26 @@ public class UserInterface {
 		}
 		
 		DataStore ds = new DataStore(DATAFILE);
+		Filter filter = new Filter().setStartYear(start).setEndYear(end);
+		ArrayList<WorldSeriesInstance> filteredList = filter.filter(ds.getAllInstances());
+        
+		if (filteredList.isEmpty())
+		    return "No World Series held between " + start + " and " + end;
 		
 		StringBuffer result = new StringBuffer();
-		
-		// this is a counter of how many we've added to the buffer
-		int count = 0;
-		
-		// look through all the instances
-		for (WorldSeriesInstance wsi : ds.getAllInstances()) {
-			if (wsi.year() >= start && wsi.year() <= end) {
-				// found it!
-				result.append("In " + wsi.year() + " the " + wsi.winner() + 
-						" defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
-				count++;
-			}
+		for (WorldSeriesInstance wsi : filteredList) {
+			result.append("In " + wsi.year() + " the " + wsi.winner() + 
+					" defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
 		}
 		
-		// if we didn't see any results, return that
-		if (count == 0)
-			return "No World Series held between " + start + " and " + end;
-		else
-			return result.toString();
+		return result.toString();
 	}
 
 	protected static String showDataForTeam(String team, String choice) {
 	 // load the data
         DataStore ds = new DataStore(DATAFILE);
+        Filter filter = new Filter().setTeam(team).setCondition(choice);
+        ArrayList<WorldSeriesInstance> filteredList = filter.filter(ds.getAllInstances());
         
         // to hold the result
         StringBuffer result = new StringBuffer();
