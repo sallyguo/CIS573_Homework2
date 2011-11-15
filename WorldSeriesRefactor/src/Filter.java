@@ -54,8 +54,7 @@ public class Filter {
         int sum = 0;
         sum += checkYear(instance);
         sum += checkTeamName(instance);
-        sum += checkTeamWin(instance);
-        sum += checkTeamLoss(instance);
+        sum += checkTeamWinLoss(instance);
         if (sum>0)
             return false;
         return true;
@@ -72,25 +71,23 @@ public class Filter {
     int checkTeamName(WorldSeriesInstance instance){
         if (this.team == null)
             return 0;
-        if ((instance.winner().equalsIgnoreCase(this.team)) || (instance.loser().equalsIgnoreCase(this.team)))
+        if (containsTeam(instance.winner(), team) || containsTeam(instance.loser(), team))
             return 0;
         return 1;
     }
     
-    int checkTeamWin(WorldSeriesInstance instance){
-        if ((this.team == null) || this.showWin == null)
+    int checkTeamWinLoss(WorldSeriesInstance instance){
+        if (this.team == null)
             return 0;
-        if (this.showWin && (instance.winner().equalsIgnoreCase(this.team)))
+        if ((this.showWin != null) && this.showWin && containsTeam(instance.winner(), team))
+            return 0;
+        if ((this.showLoss != null) && this.showLoss && containsTeam(instance.loser(), team))
             return 0;
         return 1;
     }
     
-    int checkTeamLoss(WorldSeriesInstance instance){
-        if ((this.team == null) || this.showLoss == null)
-            return 0;
-        if (this.showLoss && (instance.loser().equalsIgnoreCase(this.team)))
-            return 0;
-        return 1;
+    static boolean containsTeam(String arg1, String arg2){
+        return arg1.toUpperCase().contains(arg2.toUpperCase());
     }
 
 }
