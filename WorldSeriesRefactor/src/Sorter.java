@@ -8,16 +8,12 @@ public class Sorter {
 	 * Show all of the World Series results, sorted by the winning team
 	 */
 	public String winners() {
-		DataStore ds = new DataStore(UserInterface.DATAFILE);
-		
-		// StringBuffer to hold the return value
-		StringBuffer result = new StringBuffer();
 		
 		//Sorted map to map Teams to their Win Years
 		TreeMap<String, ArrayList<Integer>> teamYearHash = new TreeMap<String, ArrayList<Integer>>();
 		
 		//Fills map with entries from the DataStore
-		for (WorldSeriesInstance wsi : ds.getAllInstances()) {
+		for (WorldSeriesInstance wsi : UserInterface.instanceList) {
 			if (!teamYearHash.containsKey(wsi.winner())) {
 				ArrayList<Integer> newEntry = new ArrayList<Integer>();
 				newEntry.add(wsi.year());
@@ -27,6 +23,9 @@ public class Sorter {
 				teamYearHash.get(wsi.winner()).add(wsi.year());
 			}
 		}
+		
+		// StringBuffer to hold the return value
+		StringBuffer result = new StringBuffer();
 		
 		//Generates the result string by iterating through the sorted map
 		for(String team : teamYearHash.keySet()){

@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class UserInterface {
 
 	public static final String DATAFILE = "WorldSeries.csv";
-	
-	
+	private static final DataStore ds = new DataStore(DATAFILE);
+	public static final ArrayList<WorldSeriesInstance> instanceList = ds.getAllInstances();
 	
 	public static void main(String[] args) {
 		
@@ -83,42 +83,39 @@ public class UserInterface {
 
 	
 	protected static String showDataForYear(int year) {
-		DataStore ds = new DataStore(DATAFILE);
-		
 		Filter filter = new Filter().setYear(year);
-		ArrayList<WorldSeriesInstance> filteredList = filter.filter(ds.getAllInstances());
+		ArrayList<WorldSeriesInstance> filteredList = filter.filter(instanceList);
 		
-		if (!filteredList.isEmpty()){
-		    WorldSeriesInstance found = filteredList.get(0);
-		    return "In " + year + " the " + found.winner() + " defeated the " + found.loser() + " by " + found.score();
-		}
-		return "No World Series was held in " + year;
+		if (filteredList.isEmpty()) return "No World Series was held in " + year;
+		
+		return generateString(filteredList).trim();
 	}
 
 	protected static String showDataForRange(int start, int end) {
 		// make sure we have valid data
-		if (end < start) {
-			return "Invalid year range";
-		}
+		if (end < start) return "Invalid year range";
 		
-		DataStore ds = new DataStore(DATAFILE);
 		Filter filter = new Filter().setStartYear(start).setEndYear(end);
-		ArrayList<WorldSeriesInstance> filteredList = filter.filter(ds.getAllInstances());
-        
-		if (filteredList.isEmpty())
-		    return "No World Series held between " + start + " and " + end;
+		ArrayList<WorldSeriesInstance> filteredList = filter.filter(instanceList);
 		
-		StringBuffer result = new StringBuffer();
-		for (WorldSeriesInstance wsi : filteredList) {
-			result.append("In " + wsi.year() + " the " + wsi.winner() + 
-					" defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
-		}
+		if (filteredList.isEmpty()) return "No World Series held between " + start + " and " + end;
 		
-		return result.toString();
+		return generateString(filteredList);
+	}
+	
+	private static String generateString(ArrayList<WorldSeriesInstance> filtered, String ... team){
+	    StringBuffer result = new StringBuffer();
+        for (WorldSeriesInstance wsi : filtered) {
+            if ((team.length == 0) || wsi.winner().equalsIgnoreCase(team[0]))
+                result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
+            else
+                result.append("In " + wsi.year() + " the " + wsi.winner() + " lost to the " + wsi.loser() + " by " + wsi.score() + "\n");
+        }
+        return result.toString();
 	}
 
 	protected static String showDataForTeam(String team, String choice) {
-	 // load the data
+	    // load the data
         DataStore ds = new DataStore(DATAFILE);
         Filter filter = new Filter().setTeam(team).setCondition(choice);
         ArrayList<WorldSeriesInstance> filteredList = filter.filter(ds.getAllInstances());
