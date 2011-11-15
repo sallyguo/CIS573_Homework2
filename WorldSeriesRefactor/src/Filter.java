@@ -53,7 +53,7 @@ public class Filter {
     boolean isValid(WorldSeriesInstance instance){
         int sum = 0;
         sum += checkYear(instance);
-        sum += checkTeam(instance);
+        sum += checkTeamName(instance);
         sum += checkTeamWin(instance);
         sum += checkTeamLoss(instance);
         if (sum>0)
@@ -69,7 +69,7 @@ public class Filter {
         return 1;
     }
     
-    int checkTeam(WorldSeriesInstance instance){
+    int checkTeamName(WorldSeriesInstance instance){
         if (this.team == null)
             return 0;
         if ((instance.winner().equalsIgnoreCase(this.team)) || (instance.loser().equalsIgnoreCase(this.team)))
