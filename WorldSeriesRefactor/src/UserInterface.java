@@ -15,14 +15,7 @@ public class UserInterface {
 		String choice = null; // the thing that the user chooses to do
 		
 		do {
-			System.out.println("");
-			System.out.println("Please make your selection:");
-			System.out.println("1: Search for World Series info by year");
-			System.out.println("2: Search for World Series info by team");
-			System.out.println("3: Show all World Series for a range of years");
-			System.out.println("4: Show all teams' World Series wins");
-			System.out.println("Q: Quit");
-			System.out.print("> ");
+			printIntroduction();
 			
 			Scanner in = new Scanner(System.in);
 			
@@ -34,34 +27,19 @@ public class UserInterface {
 				switch (choiceNum) {
 				case 1:
 					// if they want to search by year
-					System.out.print("Please enter the year: ");
-					int year = in.nextInt();
-					String yearData = showDataForYear(year);
-					System.out.println(yearData);
+					searchByYear(in);
 					break;
 				case 2:
 					// search by team
-					System.out.print("Please enter the team name: ");
-					String team = in.nextLine();
-					System.out.print("Do you want to see World Series the team has (W)on, (L)ost, or (A)ll? ");
-					String which = in.next();
-					String teamData = showDataForTeam(team, which);
-					System.out.println(teamData);
+					searchByTeam(in);
 					break;
 				case 3:
 					// for a range of years
-					int startYear, endYear;
-					System.out.print("Please enter the starting year: ");
-					startYear = in.nextInt();
-					System.out.print("Please enter the ending year: ");
-					endYear = in.nextInt();
-					yearData = showDataForRange(startYear, endYear);
-					System.out.println(yearData);
+					searchByRange(in);
 					break;
 				case 4:
 					// show all the teams and the years they won a World Series
-					String result = new Sorter().winners();
-					System.out.println(result);
+					showAll();
 					break;
 				default:
 					// they entered a number but not a valid one
@@ -69,7 +47,7 @@ public class UserInterface {
 				}
 			} catch (NumberFormatException e) {
 				// they didn't enter a number
-				if (!choice.equals("q") && !choice.equals("Q")) {
+				if (!choice.equalsIgnoreCase("q")) {
 					System.out.println("That is not a valid selection.");
 				}
 			} catch (Exception e) {
@@ -77,10 +55,51 @@ public class UserInterface {
 			}
 
 		}
-		while (!choice.equals("Q") && !choice.equals("q"));
+		while (!choice.equalsIgnoreCase("q"));
 		System.out.println("Good bye");
 	}
+	
+	private static void printIntroduction() {
+		System.out.println("");
+		System.out.println("Please make your selection:");
+		System.out.println("1: Search for World Series info by year");
+		System.out.println("2: Search for World Series info by team");
+		System.out.println("3: Show all World Series for a range of years");
+		System.out.println("4: Show all teams' World Series wins");
+		System.out.println("Q: Quit");
+		System.out.print("> ");
+	}
 
+	private static void searchByYear(Scanner in) {
+		System.out.print("Please enter the year: ");
+		int year = in.nextInt();
+		String yearData = showDataForYear(year);
+		System.out.println(yearData);
+	}
+	
+	private static void searchByTeam(Scanner in) {
+		System.out.print("Please enter the team name: ");
+		String team = in.nextLine();
+		System.out.print("Do you want to see World Series the team has (W)on, (L)ost, or (A)ll? ");
+		String which = in.next();
+		String teamData = showDataForTeam(team, which);
+		System.out.println(teamData);
+	}
+	
+	private static void searchByRange(Scanner in) {
+		int startYear, endYear;
+		System.out.print("Please enter the starting year: ");
+		startYear = in.nextInt();
+		System.out.print("Please enter the ending year: ");
+		endYear = in.nextInt();
+		String yearData = showDataForRange(startYear, endYear);
+		System.out.println(yearData);
+	}
+	
+	private static void showAll() {
+		String result = new Sorter().winners();
+		System.out.println(result);
+	}
 	
 	protected static String showDataForYear(int year) {
 		Filter filter = new Filter().setYear(year);
