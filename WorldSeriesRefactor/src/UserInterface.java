@@ -14,11 +14,10 @@ public class UserInterface {
 
 		String choice = null; // the thing that the user chooses to do
 		
-		do {
+		while (!"q".equalsIgnoreCase(choice)){
 			printIntroduction();
 			
 			Scanner in = new Scanner(System.in);
-			
 			choice = in.nextLine();
 			
 			try {
@@ -26,36 +25,29 @@ public class UserInterface {
 
 				switch (choiceNum) {
 				case 1:
-					// if they want to search by year
 					searchByYear(in);
 					break;
 				case 2:
-					// search by team
 					searchByTeam(in);
 					break;
 				case 3:
-					// for a range of years
 					searchByRange(in);
 					break;
 				case 4:
-					// show all the teams and the years they won a World Series
 					showAll();
 					break;
 				default:
-					// they entered a number but not a valid one
 					System.out.println("That is not a valid selection.");
 				}
 			} catch (NumberFormatException e) {
-				// they didn't enter a number
 				if (!choice.equalsIgnoreCase("q")) {
 					System.out.println("That is not a valid selection.");
 				}
 			} catch (Exception e) {
 				System.out.println("That is not a valid year.");
 			}
-
 		}
-		while (!choice.equalsIgnoreCase("q"));
+		
 		System.out.println("Good bye");
 	}
 	
@@ -120,57 +112,71 @@ public class UserInterface {
 		
 		return generateEntryString(filteredList);
 	}
-	
-	private static String generateEntryString(ArrayList<WorldSeriesInstance> filtered, String ... team){
-	    StringBuffer result = new StringBuffer();
-        for (WorldSeriesInstance wsi : filtered) {
-            if ((team.length == 0) || wsi.winner().toUpperCase().contains(team[0].toUpperCase()))
-                result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
-            else
-                result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score() + "\n");
-        }
-        return result.toString();
-	}
-	
-	private static String generateSummaryString(String condition, Integer ...score){
-        return condition;
-	}
 
 	protected static String showDataForTeam(String team, String choice) {
-        Filter filter = new Filter().setTeam(team).setCondition(choice);
-        ArrayList<WorldSeriesInstance> filteredList = filter.filter(instanceList);
-        
-        // to hold the result
-        StringBuffer result = new StringBuffer();
-        result.append(generateEntryString(filteredList, team));
-        
-        if (choice.equalsIgnoreCase("W")) {
-            if (filteredList.isEmpty())
-                result.append("The " + team + " have not won any World Series\n");
-            else 
-                result.append("The " + team + " have won " + filteredList.size() + " World Series\n");
-        }
-        else if (choice.equalsIgnoreCase("L")) {
-            if (filteredList.isEmpty())
-                result.append("The " + team + " have not lost any World Series\n");
-            else
-                result.append("The " + team + " have lost " + filteredList.size() + " World Series\n");
-        }
-        else if (choice.equalsIgnoreCase("A")) {
-            Filter winFilter = new Filter().setTeam(team).setCondition("W");
-            int winCount = winFilter.filter(instanceList).size();
-            int lossCount = filteredList.size() - winCount;
-            // if none found, print a message
-            if (filteredList.isEmpty())
-                result.append("The " + team + " have not played in any World Series\n");
-            else
-                result.append("The " + team + " have won " + winCount + " World Series and lost " + lossCount + "\n");
-        }
-        else {
-            result.append("\"" + choice + "\" is not a valid entry.");
-        }
-        
-        return result.toString();
+		Filter filter = new Filter().setTeam(team).setCondition(choice);
+		ArrayList<WorldSeriesInstance> filteredList = filter.filter(instanceList);
+		
+		StringBuffer result = new StringBuffer();
+		
+		Integer [] score = {filteredList.size(), 0};
+		
+		if (choice.equalsIgnoreCase("A")) {
+			Filter winCountFilter = new Filter().setTeam(team).setCondition("W");
+			score[0] = winCountFilter.filter(instanceList).size();
+			score[1] = filteredList.size() - score[0];
+		}
+		
+		result.append(generateEntryString(filteredList, team));
+		result.append(generateSummaryString(choice, team, score));
+		
+		return result.toString();
 	}
 	
+	/**
+	 * Takes in a filtered ArrayList of WorldSeriesInstance and generates the string entry for each instance
+	 * @param filtered - The filtered arraylist of WorldSeriesInstance
+	 * @param team - The team we're interested in (only required for "A" choice in ShowDataForTeam)
+	 * @return The string output for all the entries in the filtered list
+	 */
+	private static String generateEntryString(ArrayList<WorldSeriesInstance> filtered, String ... team){
+		StringBuffer result = new StringBuffer();
+		for (WorldSeriesInstance wsi : filtered) {
+			if ((team.length == 0) || wsi.winner().toUpperCase().contains(team[0].toUpperCase()))
+				result.append("In " + wsi.year() + " the " + wsi.winner() + " defeated the " + wsi.loser() + " by " + wsi.score() + "\n");
+			else
+				result.append("In " + wsi.year() + " the " + wsi.loser() + " lost to the " + wsi.winner() + " by " + wsi.score() + "\n");
+		}
+		return result.toString();
+	}
+	
+	/**
+	 * Generates the summary string for the "A" choice in ShowDataForTeam
+	 * @param condition - The choice from ShowDataForTeam
+	 * @param team - The team we're interested in
+	 * @param score - The final score for the team we're interested in. If we only care for
+	 * wins or losses, we only take in the first entry. If we want both, we need two elements in score.
+	 * @return The summary string output for ShowDataForTeam
+	 */
+	private static String generateSummaryString(String condition, String team, Integer ...score){
+		if ("W".equalsIgnoreCase(condition)){
+			if (score[0] == 0)
+				return "The " + team + " have not won any World Series\n";
+			else
+				return "The " + team + " have won " + score[0] + " World Series\n";
+		}
+		if ("L".equalsIgnoreCase(condition)){
+			if (score[0] == 0)
+				return "The " + team + " have not lost any World Series\n";
+			else
+				return "The " + team + " have lost " + score[0] + " World Series\n";
+		}
+		if ("A".equalsIgnoreCase(condition)){
+			if (score[0] + score[1] == 0)
+				return "The " + team + " have not played in any World Series\n";
+			else
+				return "The " + team + " have won " + score[0] + " World Series and lost " + score[1] + "\n";
+		}
+		return "\"" + condition + "\" is not a valid entry.";
+	}
 }
