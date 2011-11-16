@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 
-
+/**
+ * Class to set filter conditions and filter an ArrayList of WorldSeriesInstances
+ */
 public class Filter {
+    //Filter conditions
     Integer startYear = null;
     Integer endYear = null;
     String team = null;
@@ -41,6 +44,11 @@ public class Filter {
         return this;
     }
     
+    /**
+     * Filters an ArrayList of WorldSeriesInstance
+     * @param original - The ArrayList you want to filter
+     * @return An ArrayList containing only the elements from original that passes the filter
+     */
     ArrayList<WorldSeriesInstance> filter(ArrayList<WorldSeriesInstance> original){
         ArrayList<WorldSeriesInstance> filtered = new ArrayList<WorldSeriesInstance>();
         for (WorldSeriesInstance current : original){
